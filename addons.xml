@@ -18,7 +18,7 @@
 	<extension point="xbmc.addon.repository" name="Messias Addon Repository">
 		<info compressed="false">https://raw.githubusercontent.com/badjudja/meu/master/addons.xml</info>
 		<checksum>https://raw.githubusercontent.com/badjudja/meu/master/addons.xml.md5</checksum>
-		<datadir zip="true">http://github.com/badjudja/meu/raw/master/zips</datadir>
+		<datadir zip="true">http://github.com/badjudja/meu/tree/master/zips</datadir>
 	</extension>
 	<extension point="xbmc.addon.metadata">
 		<summary>Kodi Repo</summary>
