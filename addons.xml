@@ -15,7 +15,20 @@
         <description>Lista de tv para amigos</description>
     </extension>
 </addon>
-
+<addon id="plugin.video.f4mTester" version="2.2.5" name="f4mTester" provider-name="Shani">
+    <requires>
+        <import addon="xbmc.python" version="2.1.0"/>
+        <import addon="script.video.F4mProxy" version="2.2.3"/>
+    </requires>
+    <extension point="xbmc.python.pluginsource" library="default.py">
+        <provides>video</provides>
+    </extension>
+    <extension point="xbmc.addon.metadata">
+        <summary>f4mTester</summary>
+        <description></description>
+        <platform>all</platform>
+    </extension>
+</addon>
 <addon id="repository.Messias" name="Messias" version="0.0.2" provider-name="Messias">
 	<extension point="xbmc.addon.repository" name="Messias Addon Repository">
 		<info compressed="false">https://raw.githubusercontent.com/badjudja/meu/master/addons.xml</info>
