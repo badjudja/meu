@@ -1,20 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <addons>
-<addon id="plugin.video.messias_iptv" name="Messias Iptv" version="0.0.1" provider-name="Messias">
-    <requires>
-        <import addon="xbmc.python" version="2.1.0"/>
-        <import addon="script.video.F4mProxy" version="2.5.1"/>
-    </requires>
-    <extension point="xbmc.python.pluginsource"
-               library="default.py">
-        <provides>video</provides>
-    </extension>
-    <extension point="xbmc.addon.metadata">
-        <platform>all</platform>
-        <summary>Listas de tv para amigos</summary>
-        <description>Lista de tv para amigos</description>
-    </extension>
-</addon>
 <addon id="plugin.video.f4mTester" version="2.2.5" name="f4mTester" provider-name="Shani">
     <requires>
         <import addon="xbmc.python" version="2.1.0"/>
@@ -29,6 +14,23 @@
         <platform>all</platform>
     </extension>
 </addon>
+
+<addon id="plugin.video.messias_iptv" name="Messias Iptv" version="0.0.2" provider-name="Messias">
+    <requires>
+	     <import addon="xbmc.python" version="2.1.0"/>
+        <import addon="script.video.F4mProxy" version="2.2.3"/>
+    </requires>
+    <extension point="xbmc.python.pluginsource"
+               library="default.py">
+        <provides>video</provides>
+    </extension>
+    <extension point="xbmc.addon.metadata">
+        <platform>all</platform>
+        <summary>Listas de tv para amigos</summary>
+        <description>Lista de tv para amigos</description>
+    </extension>
+</addon>
+
 <addon id="repository.Messias" name="Messias" version="0.0.2" provider-name="Messias">
 	<extension point="xbmc.addon.repository" name="Messias Addon Repository">
 		<info compressed="false">https://raw.githubusercontent.com/badjudja/meu/master/addons.xml</info>
@@ -40,5 +42,25 @@
 		<description>Repo para a malta</description>
 		<platform>all</platform>
 	</extension>
+</addon>
+
+<addon id="script.video.F4mProxy"
+	     name="F4mProxy"
+	     version="2.5.1"
+	     provider-name="Shani">
+  <requires>
+    <import addon="xbmc.python" version="2.1.0" />
+    <import addon="script.module.requests" />
+  </requires>
+  <extension point="xbmc.python.module" library="lib" />
+    <extension point="xbmc.python.pluginsource" library="addon.py">
+		<provides>executable</provides>
+  </extension>
+
+  <extension point="xbmc.addon.metadata">
+    <platform>all</platform>
+    <summary lang="en">Proxy for f4m</summary>
+    <description lang="en">Use this addon to play F4m v1 and v2 streams</description>
+  </extension>
 </addon>
 </addons>
