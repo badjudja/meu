@@ -1,0 +1,6 @@
+<settings>
+	<category label="[COLOR red][B]ADD PATHS[/B][/COLOR]">
+		<setting label="[B]Internacional[/B]" type="text"  id="online_m3u" default="http://dofundo.mooo.com/lista.m3u" />	
+		<setting label="[COLOR red][B]Nacional[/B][/COLOR]" type="text"  id="online_xml" default="http://dofundo.mooo.com/Ptlista.m3u" />			
+	</category>
+</settings>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<addons>
+<addon id="plugin.video.messias_iptv" name="Messias Iptv" version="0.0.1" provider-name="Messias">
+    <requires>
+    </requires>
+    <extension point="xbmc.python.pluginsource"
+               library="default.py">
+        <provides>video</provides>
+    </extension>
+    <extension point="xbmc.addon.metadata">
+        <platform>all</platform>
+        <summary>Listas de tv para amigos</summary>
+        <description>Lista de tv para amigos</description>
+    </extension>
+</addon>
+
+<addon id="repository.Messsias" name="Messias" version="0.0.0.1" provider-name="Messias">
+	<extension point="xbmc.addon.repository" name="Messias Addon Repository">
+		<info compressed="false">http://github.com/badjudja/meu/raw/master/addons.xml</info>
+		<checksum>http://github.com/badjudja/meu/raw/master/addons.xml.md5</checksum>
+		<datadir zip="true">http://github.com/badjudja/meu/raw/master/zips</datadir>
+	</extension>
+	<extension point="xbmc.addon.metadata">
+		<summary>Kodi Repo</summary>
+		<description>Repo para a malta</description>
+		<platform>all</platform>
+	</extension>
+</addon>
+</addons>
