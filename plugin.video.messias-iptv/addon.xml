@@ -8,5 +8,6 @@
         <platform>all</platform>
         <summary>Listas de tv para amigos</summary>
         <description>Lista de tv para amigos</description>
+		<platform>all</platform>
     </extension>
 </addon>
