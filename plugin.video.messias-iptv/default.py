@@ -19,25 +19,111 @@ along with this program. If not, see <http://www.gnu.org/licenses/>
 
 import urllib, urllib2, sys, re, os, unicodedata
 import xbmc, xbmcgui, xbmcplugin, xbmcaddon
+import json, shutil, time, zipfile, stat
 
+AddonID = 'plugin.video.messias-iptv'
+Addon = xbmcaddon.Addon(AddonID)
+localizedString = Addon.getLocalizedString
+AddonName = Addon.getAddonInfo("name")
+icon = Addon.getAddonInfo('icon')
 plugin_handle = int(sys.argv[1])
+addonDir = Addon.getAddonInfo('path').decode("utf-8")
+fanart = xbmc.translatePath(os.path.join(addonDir, 'fanart.jpg'))
+icon = xbmc.translatePath(os.path.join(addonDir, 'icon.png'))
 
-mysettings = xbmcaddon.Addon(id = 'plugin.video.messias_iptv')
-profile = mysettings.getAddonInfo('profile')
-home = mysettings.getAddonInfo('path')
-fanart = xbmc.translatePath(os.path.join(home, 'fanart.jpg'))
-icon = xbmc.translatePath(os.path.join(home, 'icon.png'))
+LOCAL_VERSION_FILE = os.path.join(os.path.join(addonDir), 'version.xml' )
+REMOTE_VERSION_FILE = "http://dofundo.mooo.com/version.xml"
 
 online_m3u = 'http://dofundo.mooo.com/Ptlista.m3u'
 local_m3u = 'http://dofundo.mooo.com/Ptlista2.m3u'
 online_xml = 'http://dofundo.mooo.com/lista.m3u'
-local_xml = 'http://dofundo.mooo.com/lista1.m3u'
+local_xml = 'http://dofundo.mooo.com/lista2.m3u'
 
 xml_regex = '<title>(.*?)</title>\s*<link>(.*?)</link>\s*<thumbnail>(.*?)</thumbnail>'
 m3u_thumb_regex = 'tvg-logo=[\'"](.*?)[\'"]'
 m3u_regex = '#(.+?),(.+)\s*(.+)\s*'
 
 u_tube = 'http://www.youtube.com'
+
+def checkforupdates(url,loc):
+        xbmc.log('Start check for updates')
+    	try:
+		data = urllib2.urlopen(url).read()
+		xbmc.log('read xml remote data:' + data)
+	except:
+		data = ""
+		xbmc.log('fail read xml remote data:' + url )
+    	try:
+		f = open(loc,'r')
+		data2 = f.read().replace("\n\n", "")
+		f.close()
+		xbmc.log('read xml local data:' + data2)
+	except:
+		data2 = ""
+		xbmc.log('fail read xml local data')
+
+        version_publicada = find_single_match(data,"<version>([^<]+)</version>").strip()
+        tag_publicada = find_single_match(data,"<tag>([^<]+)</tag>").strip()
+
+        version_local = find_single_match(data2,"<version>([^<]+)</version>").strip()
+        tag_local = find_single_match(data,"<tag>([^<]+)</tag>").strip()
+
+        try:
+            numero_version_publicada = int(version_publicada)
+            xbmc.log('number remote version:' + version_publicada)
+            numero_version_local = int(version_local)
+            xbmc.log('number local version:' + version_local)
+        except:
+            version_publicada = ""
+            
+            xbmc.log('number local version:' + version_local )
+            xbmc.log('Check fail !@*')
+        if version_publicada!="" and version_local!="":
+            if (numero_version_publicada > numero_version_local):
+                AddonID = 'plugin.video.messias-iptv'
+                addon       = xbmcaddon.Addon(AddonID)
+                addonname   = addon.getAddonInfo('name')
+                extpath = os.path.join(xbmc.translatePath("special://home/addons/").decode("utf-8")) 
+                addon_data_dir = os.path.join(xbmc.translatePath("special://userdata/addon_data" ).decode("utf-8"), AddonID) 
+                dest = addon_data_dir + '/lastupdate.zip'                
+                
+                UPDATE_URL = 'http://github.com/badjudja/meu/tree/master/zips/plugin.video.messias-iptv.' + tag_publicada + '.zip'
+                xbmc.log('START DOWNLOAD UPDATE:' + UPDATE_URL)
+                
+                DownloaderClass(UPDATE_URL,dest)  
+
+                import ziptools
+                unzipper = ziptools.ziptools()
+                unzipper.extract(dest,extpath)
+                
+                line7 = 'New version installed .....'
+                line8 = 'Version: ' + tag_publicada 
+                
+                xbmcgui.Dialog().ok('Messias IpTv', line7, line8)
+                
+                if os.remove( dest ): xbmc.log('TEMPORARY ZIP REMOVED') 
+            else:
+                AddonID = 'plugin.video.messias-iptv'
+                addon = xbmcaddon.Addon(AddonID)
+                addonname = addon.getAddonInfo('name')
+                icon = xbmcaddon.Addon(AddonID).getAddonInfo('icon')
+                xbmc.executebuiltin('Notification(%s, %s, %d, %s)'%(addonname,"Check updates: no update is available", 3200, icon))
+                xbmc.log('No updates are available' )
+				
+def find_single_match(data,patron,index=0):
+    try:
+        matches = re.findall( patron , data , flags=re.DOTALL )
+        return matches[index]
+    except:
+        return ""
+    
+#url = 'http://vaniarupeni.altervista.org/repo/plugin.video.kodilivetv-1.1.0.zip'
+percent = 0
+def DownloaderClass(url,dest):
+    dp = xbmcgui.DialogProgress()
+    dp.create("Messias IpTv ZIP DOWNLOADER","Downloading File",url)
+    urllib.urlretrieve(url,dest,lambda nb, bs, fs, url=url: _pbhook(nb,bs,fs,url,dp))
+        
 
 def removeAccents(s):
 	return ''.join((c for c in unicodedata.normalize('NFD', s.decode('utf-8')) if unicodedata.category(c) != 'Mn'))
