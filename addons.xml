@@ -15,7 +15,7 @@
     </extension>
 </addon>
 
-<addon id="plugin.video.messias_iptv" name="Messias Iptv" version="0.0.3" provider-name="Messias">
+<addon id="plugin.video.messias-iptv" name="Messias Iptv" version="0.0.3" provider-name="Messias">
     <extension point="xbmc.python.pluginsource"
                library="default.py">
         <provides>video</provides>
