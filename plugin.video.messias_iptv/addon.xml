@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="plugin.video.messias_iptv" name="Messias Iptv" version="0.0.2" provider-name="Messias">
-    <requires>
-	     <import addon="xbmc.python" version="2.1.0"/>
-        <import addon="script.video.F4mProxy" version="2.2.3"/>
-    </requires>
+<addon id="plugin.video.messias_iptv" name="Messias Iptv" version="0.0.3" provider-name="Messias">
     <extension point="xbmc.python.pluginsource"
                library="default.py">
         <provides>video</provides>

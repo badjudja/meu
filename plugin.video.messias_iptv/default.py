@@ -28,10 +28,10 @@ home = mysettings.getAddonInfo('path')
 fanart = xbmc.translatePath(os.path.join(home, 'fanart.jpg'))
 icon = xbmc.translatePath(os.path.join(home, 'icon.png'))
 
-online_m3u = mysettings.getSetting('online_m3u')
-local_m3u = mysettings.getSetting('local_m3u')
-online_xml = mysettings.getSetting('online_xml')
-local_xml = mysettings.getSetting('local_xml')
+online_m3u = 'http://dofundo.mooo.com/Ptlista.m3u'
+local_m3u = 'http://dofundo.mooo.com/Ptlista2.m3u'
+online_xml = 'http://dofundo.mooo.com/lista.m3u'
+local_xml = 'http://dofundo.mooo.com/lista1.m3u'
 
 xml_regex = '<title>(.*?)</title>\s*<link>(.*?)</link>\s*<thumbnail>(.*?)</thumbnail>'
 m3u_thumb_regex = 'tvg-logo=[\'"](.*?)[\'"]'
@@ -68,15 +68,15 @@ def make_request(url):
 			print 'Reason: ', e.reason
 			
 def main():
-	add_dir('[B]<<<  SEARCH  >>>[/B]', 'searchlink', 99, icon, fanart)
+	add_dir('[B]<<<  Pesquisar  >>>[/B]', 'searchlink', 99, icon, fanart)
 	if len(online_m3u) > 0:	
-		add_dir('[COLOR yellow][B]>> Internacional <<[/B][/COLOR]', u_tube, 2, icon, fanart)
+		add_dir('[COLOR yellow][B]>> Nacional 1 <<[/B][/COLOR]', u_tube, 2, icon, fanart)
 	if len(local_m3u) > 0:	
-		add_dir('[COLOR magenta][B]>> LOCAL M3U <<[/B][/COLOR]', u_tube, 3, icon, fanart)
+		add_dir('[COLOR magenta][B]>> Nacional 2 <<[/B][/COLOR]', u_tube, 3, icon, fanart)
 	if len(online_xml) > 0:	
-		add_dir('[COLOR cyan][B]>> Nacional <<[/B][/COLOR]', u_tube, 4, icon, fanart)
+		add_dir('[COLOR cyan][B]>> Internacional 2<<[/B][/COLOR]', u_tube, 4, icon, fanart)
 	if len(local_xml) > 0:	
-		add_dir('[COLOR lime][B]>> LOCAL XML <<[/B][/COLOR]', u_tube, 5, icon, fanart)		
+		add_dir('[COLOR lime][B]>> Nacional 2 <<[/B][/COLOR]', u_tube, 5, icon, fanart)		
 	if (len(online_m3u) < 1 and len(local_m3u) < 1 and len(online_xml) < 1 and len(local_xml) < 1 ):		
 		mysettings.openSettings()
 		xbmc.executebuiltin("Container.Refresh")		
@@ -94,23 +94,23 @@ def search():
 				if re.search(searchText, removeAccents(name.replace('Đ', 'D')), re.IGNORECASE):
 					m3u_playlist(name, url, thumb)	
 		if len(local_m3u) > 0:		
-			content = read_file(local_m3u)
+			content = make_request(local_m3u)
 			match = re.compile(m3u_regex).findall(content)		
 			for thumb, name, url in match:
 				if re.search(searchText, removeAccents(name.replace('Đ', 'D')), re.IGNORECASE):
 					m3u_playlist(name, url, thumb)	
 		if len(online_xml) > 0:					
 			content = make_request(online_xml)
-			match = re.compile(xml_regex).findall(content)	
-			for name, url, thumb in match:
+			match = re.compile(m3u_regex).findall(content)	
+			for thumb, name, url in match:
 				if re.search(searchText, removeAccents(name.replace('Đ', 'D')), re.IGNORECASE):
-					xml_playlist(name, url, thumb)	
+					m3u_playlist(name, url, thumb)	
 		if len(local_xml) > 0:		
-			content = read_file(local_xml)
-			match = re.compile(xml_regex).findall(content)		
-			for name, url, thumb in match:
+			content = make_request(local_xml)
+			match = re.compile(m3u_regex).findall(content)		
+			for thumb, name, url in match:
 				if re.search(searchText, removeAccents(name.replace('Đ', 'D')), re.IGNORECASE):
-					xml_playlist(name, url, thumb)	
+					m3u_playlist(name, url, thumb)	
 	except:
 		pass
 		
@@ -126,14 +126,14 @@ def m3u_online():
 def xml_online():			
 	content = make_request(online_xml)
 	match = re.compile(m3u_regex).findall(content)
-	for thumb, name, url in match:
+	for thumb, name, url in match:	
 		try:
 			m3u_playlist(name, url, thumb)
 		except:
 			pass
 			
 def m3u_local():
-	content = read_file(local_m3u)
+	content = make_request(local_m3u)
 	match = re.compile(m3u_regex).findall(content)
 	for thumb, name, url in match:	
 		try:
@@ -142,11 +142,11 @@ def m3u_local():
 			pass
 
 def xml_local():		
-	content = read_file(local_xml)
-	match = re.compile(xml_regex).findall(content)
-	for name, url, thumb in match:	
+	content = make_request(local_xml)
+	match = re.compile(m3u_regex).findall(content)
+	for thumb, name, url in match:	
 		try:
-			xml_playlist(name, url, thumb)
+			m3u_playlist(name, url, thumb)
 		except:
 			pass
 				
