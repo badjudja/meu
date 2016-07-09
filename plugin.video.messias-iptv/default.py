@@ -87,7 +87,7 @@ def checkforupdates(url,loc):
                 addon_data_dir = os.path.join(xbmc.translatePath("special://userdata/addon_data" ).decode("utf-8"), AddonID) 
                 dest = addon_data_dir + '/lastupdate.zip'                
                 
-                UPDATE_URL = 'http://github.com/badjudja/meu/tree/master/zips/plugin.video.messias-iptv.' + tag_publicada + '.zip'
+                UPDATE_URL = 'http://github.com/badjudja/meu/tree/master/zips/plugin.video.messias-iptv-' + tag_publicada + '.zip'
                 xbmc.log('START DOWNLOAD UPDATE:' + UPDATE_URL)
                 
                 DownloaderClass(UPDATE_URL,dest)  
