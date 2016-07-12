@@ -38,6 +38,8 @@ online_m3u = 'http://dofundo.mooo.com/Ptlista.m3u'
 local_m3u = 'http://dofundo.mooo.com/Ptlista2.m3u'
 online_xml = 'http://dofundo.mooo.com/lista.m3u'
 local_xml = 'http://dofundo.mooo.com/lista2.m3u'
+algas_m3u = 'http://pastebin.com/raw/6UwwrXRN'
+brasil_m3u = 'http://pastebin.com/raw/HyFjh35W'
 
 xml_regex = '<title>(.*?)</title>\s*<link>(.*?)</link>\s*<thumbnail>(.*?)</thumbnail>'
 m3u_thumb_regex = 'tvg-logo=[\'"](.*?)[\'"]'
@@ -87,7 +89,7 @@ def checkforupdates(url,loc):
                 addon_data_dir = os.path.join(xbmc.translatePath("special://userdata/addon_data" ).decode("utf-8"), AddonID) 
                 dest = addon_data_dir + '/lastupdate.zip'                
                 
-                UPDATE_URL = 'http://github.com/badjudja/meu/tree/master/zips/plugin.video.messias-iptv-' + tag_publicada + '.zip'
+                UPDATE_URL = 'http://raw.github.com/badjudja/meu/master/plugin.video.messias-iptv-' + tag_publicada + '.zip'
                 xbmc.log('START DOWNLOAD UPDATE:' + UPDATE_URL)
                 
                 DownloaderClass(UPDATE_URL,dest)  
@@ -160,10 +162,14 @@ def main():
 	if len(local_m3u) > 0:	
 		add_dir('[COLOR magenta][B]>> Nacional 2 <<[/B][/COLOR]', u_tube, 3, icon, fanart)
 	if len(online_xml) > 0:	
-		add_dir('[COLOR cyan][B]>> Internacional 2<<[/B][/COLOR]', u_tube, 4, icon, fanart)
+		add_dir('[COLOR cyan][B]>> Internacional 1<<[/B][/COLOR]', u_tube, 4, icon, fanart)
 	if len(local_xml) > 0:	
-		add_dir('[COLOR lime][B]>> Nacional 2 <<[/B][/COLOR]', u_tube, 5, icon, fanart)		
-	if (len(online_m3u) < 1 and len(local_m3u) < 1 and len(online_xml) < 1 and len(local_xml) < 1 ):		
+		add_dir('[COLOR lime][B]>> Internacional 2 <<[/B][/COLOR]', u_tube, 5, icon, fanart)		
+	if len(algas_m3u) > 0:	
+		add_dir('[COLOR blue][B]>> TV Algas <<[/B][/COLOR]', u_tube, 6, icon, fanart)	
+	if len(brasil_m3u) > 0:	
+		add_dir('[COLOR green][B]>> Lista Brasil <<[/B][/COLOR]', u_tube, 7, icon, fanart)	
+	if (len(online_m3u) < 1 and len(local_m3u) < 1 and len(online_xml) < 1 and len(local_xml) < 1 and len(algas_m3u) < 1 and len(brasil_m3u) < 1 ):		
 		mysettings.openSettings()
 		xbmc.executebuiltin("Container.Refresh")		
 
@@ -197,6 +203,18 @@ def search():
 			for thumb, name, url in match:
 				if re.search(searchText, removeAccents(name.replace('Đ', 'D')), re.IGNORECASE):
 					m3u_playlist(name, url, thumb)	
+		if len(algas_m3u) > 0:		
+			content = make_request(algas_m3u)
+			match = re.compile(m3u_regex).findall(content)
+			for thumb, name, url in match:
+				if re.search(searchText, removeAccents(name.replace('Đ', 'D')), re.IGNORECASE):
+					m3u_playlist(name, url, thumb)	
+		if len(brasil_m3u) > 0:		
+			content = make_request(brasil_m3u)
+			match = re.compile(m3u_regex).findall(content)
+			for thumb, name, url in match:
+				if re.search(searchText, removeAccents(name.replace('Đ', 'D')), re.IGNORECASE):
+					m3u_playlist(name, url, thumb)				
 	except:
 		pass
 		
@@ -235,7 +253,22 @@ def xml_local():
 			m3u_playlist(name, url, thumb)
 		except:
 			pass
-				
+def m3u_algas():		
+	content = make_request(algas_m3u)
+	match = re.compile(m3u_regex).findall(content)
+	for thumb, name, url in match:	
+		try:
+			m3u_playlist(name, url, thumb)
+		except:
+			pass
+def m3u_brasil():		
+	content = make_request(brasil_m3u)
+	match = re.compile(m3u_regex).findall(content)
+	for thumb, name, url in match:	
+		try:
+			m3u_playlist(name, url, thumb)
+		except:
+			pass				
 def m3u_playlist(name, url, thumb):	
 	name = re.sub('\s+', ' ', name).strip()			
 	url = url.replace('"', ' ').replace('&amp;', '&').strip()
@@ -369,6 +402,12 @@ elif mode == 4:
 	
 elif mode == 5:
 	xml_local()	
+	
+elif mode == 6:
+	m3u_algas()	
+	
+elif mode == 7:
+	m3u_brasil()
 
 elif mode == 99:
 	search()
