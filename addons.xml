@@ -15,7 +15,7 @@
     </extension>
 </addon>
 
-<addon id="plugin.video.messias-iptv" name="Messias Iptv" version="0.0.5" provider-name="Messias">
+<addon id="plugin.video.messias-iptv" name="Messias Iptv" version="0.0.6" provider-name="Messias">
     <extension point="xbmc.python.pluginsource"
                library="default.py">
         <provides>video</provides>
@@ -26,6 +26,32 @@
         <description>Lista de tv para amigos</description>
 		<platform>all</platform>
     </extension>
+</addon>
+
+<addon
+  id="plugin.video.SportsDevil"
+  version="2016.06.20"
+  name="SportsDevil"
+  provider-name="SportsDevil">
+  <requires>
+   <import addon="xbmc.python" version="2.14.0"/>
+   <import addon="script.module.simplejson" />
+   <import addon="script.module.six" />
+   <import addon="script.module.requests" />
+   <import addon="script.module.livestreamer" />
+   <import addon="script.module.pydevd" version="4.4.0" optional="true"/>
+  </requires>
+  <extension
+    point="xbmc.python.pluginsource"
+    library="default.py">
+   <provides>video</provides>
+  </extension>
+  <extension point="xbmc.addon.metadata">
+    <summary>Play videos of different sports streaming sites</summary>
+    <description>Play videos of different sports streaming sites</description>
+    <license>GNU GENERAL PUBLIC LICENSE. Version 2, June 1991</license>
+    <platform>all</platform>
+  </extension>
 </addon>
 
 <addon id="repository.Messias" name="Messias" version="0.0.2" provider-name="Messias">
