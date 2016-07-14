@@ -1,0 +1,73 @@
+# Kodi Media Center language file
+# Addon Name: Messias Iptv
+# Addon id: plugin.video.messias-iptv
+# Addon Provider: 
+# Translators:
+# 2016
+msgid ""
+msgstr ""
+"Project-Id-Version: Kodi Addon IPTV\n"
+"Report-Msgid-Bugs-To: Facebook - Info Listas iptv \n"
+"POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2016-04-22 14:59+0000\n"
+"Last-Translator: \n"
+"Language-Team: Portuguese ()\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: pt\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgctxt "#33001"
+msgid "Canal a procurar"
+msgstr "Canal a procurar"
+
+msgctxt "#33002"
+msgid "PROCURAR"
+msgstr "PROCURAR"
+
+# skipped 33002
+msgctxt "#33003"
+msgid "Nacional 1"
+msgstr "Nacional 1"
+
+msgctxt "#33004"
+msgid "Nacional 2"
+msgstr "Nacional 2"
+
+msgctxt "#33005"
+msgid "Nacional 3"
+msgstr "Nacional 3"
+
+msgctxt "#33006"
+msgid "Internacional 1"
+msgstr "Internacional 1"
+
+msgctxt "#33007"
+msgid "Internacional 2"
+msgstr "Internacional 2"
+
+msgctxt "#33008"
+msgid "TV Algas"
+msgstr "TV Algas"
+
+msgctxt "#33009"
+msgid "Lista Brasil 1"
+msgstr "Lista Brasil 1"
+
+msgctxt "#33010"
+msgid "Lista Brasil 2"
+msgstr "Lista Brasil 2"
+
+msgctxt "#33011"
+msgid "Lista Brasil 3"
+msgstr "Lista Brasil 3"
+
+msgctxt "#33012"
+msgid "TV Mega"
+msgstr "TV Mega"
+
+msgctxt "#33013"
+msgid "Desporto"
+msgstr "Desporto"
+

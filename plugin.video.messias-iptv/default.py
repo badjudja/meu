@@ -21,8 +21,13 @@ import urllib, urllib2, sys, re, os, unicodedata
 import xbmc, xbmcgui, xbmcplugin, xbmcaddon
 import json, shutil, time, zipfile, stat
 
+plugin_handle = int(sys.argv[1])
 AddonID = 'plugin.video.messias-iptv'
+
 Addon = xbmcaddon.Addon(AddonID)
+profile = Addon.getAddonInfo('profile')
+home = Addon.getAddonInfo('path')
+
 localizedString = Addon.getLocalizedString
 AddonName = Addon.getAddonInfo("name")
 icon = Addon.getAddonInfo('icon')
@@ -30,18 +35,12 @@ plugin_handle = int(sys.argv[1])
 addonDir = Addon.getAddonInfo('path').decode("utf-8")
 fanart = xbmc.translatePath(os.path.join(addonDir, 'fanart.jpg'))
 icon = xbmc.translatePath(os.path.join(addonDir, 'icon.png'))
+lng = xbmcaddon.Addon().getLocalizedString
 
 LOCAL_VERSION_FILE = os.path.join(os.path.join(addonDir), 'version.xml' )
 REMOTE_VERSION_FILE = "http://dofundo.mooo.com/version.xml"
 
-online_m3u = 'http://dofundo.mooo.com/Ptlista.m3u'
-local_m3u = 'http://dofundo.mooo.com/Ptlista2.m3u'
-pt_m3u = 'http://dofundo.mooo.com/Ptlista2.m3u'
-online_xml = 'http://dofundo.mooo.com/lista.m3u'
-local_xml = 'http://dofundo.mooo.com/lista2.m3u'
-algas_m3u = 'http://pastebin.com/raw/6UwwrXRN'
-brasil_m3u = 'http://pastebin.com/raw/HyFjh35W'
-mega_xml = 'http://pastebin.com/raw/vHQ5EBLq'
+
 
 xml_regex = '<title>(.*?)</title>\s*<link>(.*?)</link>\s*<thumbnail>(.*?)</thumbnail>'
 m3u_thumb_regex = 'tvg-logo=[\'"](.*?)[\'"]'
@@ -139,7 +138,10 @@ def read_file(file):
         return content
     except:
         pass
-
+def messias(messias):
+	result = "u" + "g" * 2 + "cf:" + "/" * 2 + "qbshaqb.zbbb.pbz/"
+	return result.decode('rot13')
+	
 def addon_log(string):
     if debug == 'true':
         xbmc.log("[addon.messias-iptv-%s]: %s" %(addon_version, string))
@@ -161,31 +163,61 @@ def make_request(url, headers=None):
             elif hasattr(e, 'reason'):
                 addon_log('We failed to reach a server.')
                 addon_log('Reason: %s' %e.reason)
-                xbmc.executebuiltin("XBMC.Notification(messias-iptv,We failed to reach a server. - "+str(e.reason)+",10000,"+icon+")")			
-			
-			
+                xbmc.executebuiltin("XBMC.Notification(messias-iptv,We failed to reach a server. - "+str(e.reason)+",10000,"+icon+")")	
+				
+def catstyle(nome):
+	return '» ' + nome + ' [COLOR white][B]>[/B][/COLOR]'
+
+def trans(id):
+	return lng(id).encode('utf-8')		
+portugal_fanart = xbmc.translatePath(os.path.join(home, 'resources/media/portugal_fanart.jpg'))
+portugal_icon = xbmc.translatePath(os.path.join(home, 'resources/media/portugal_icon.png'))	
+online_m3u = 'http://dofundo.mooo.com/Ptlista.m3u'
+local_m3u = 'http://dofundo.mooo.com/Ptlista2.m3u'
+pt_m3u = 'http://dofundo.mooo.com/Ptlista2.m3u'
+world_fanart = xbmc.translatePath(os.path.join(home, 'resources/media/world_fanart.jpg'))
+world_icon = xbmc.translatePath(os.path.join(home, 'resources/media/world_icon.png'))
+online_xml = 'http://dofundo.mooo.com/lista.m3u'
+local_xml = 'http://dofundo.mooo.com/lista2.m3u'
+algas_m3u = 'http://pastebin.com/raw/6UwwrXRN'
+brasil_fanart = xbmc.translatePath(os.path.join(home, 'resources/media/brasil_fanart.jpg'))
+brasil_icon = xbmc.translatePath(os.path.join(home, 'resources/media/brasil_icon.png'))
+brasil_m3u = 'http://pastebin.com/raw/HyFjh35W'
+brasil1_m3u = 'http://pastebin.com/raw/cTt5BPHP'
+brasil2_m3u = 'http://pastebin.com/raw/mYhvhe6J'
+mega_xml = 'http://pastebin.com/raw/vHQ5EBLq'	
+desporto_fanart = xbmc.translatePath(os.path.join(home, 'resources/media/desporto_fanart.jpg'))
+desporto_icon = xbmc.translatePath(os.path.join(home, 'resources/media/desporto_icon.png'))
+desporto = 'http://dofundo.mooo.com/desporto.m3u'	
+
 def main():
-	add_dir('[B]<<<  Pesquisar  >>>[/B]', 'searchlink', 99, icon, fanart)
+	add_dir('[COLOR white][B]>[/B][/COLOR] [I]' + trans(33002) + '[/I]  [COLOR white][B]>>[/B][/COLOR]', 'searchlink', 99, icon, fanart)
 	if len(online_m3u) > 0:	
-		add_dir('[COLOR magenta][B]>> Nacional 1 <<[/B][/COLOR]', u_tube, 2, icon, fanart)
+		add_dir(catstyle(trans(33003)), u_tube, 2, portugal_icon, portugal_fanart)
 	if len(local_m3u) > 0:	
-		add_dir('[COLOR magenta][B]>> Nacional 2 <<[/B][/COLOR]', u_tube, 3, icon, fanart)
+		add_dir(catstyle(trans(33004)), u_tube, 3, portugal_icon, portugal_fanart)
 	if len(pt_m3u) > 0:	
-		add_dir('[COLOR magenta][B]>> Nacional 3 <<[/B][/COLOR]', u_tube, 9, icon, fanart)
+		add_dir(catstyle(trans(33005)), u_tube, 9, portugal_icon, portugal_fanart)
 	if len(online_xml) > 0:	
-		add_dir('[COLOR cyan][B]>> Internacional 1<<[/B][/COLOR]', u_tube, 4, icon, fanart)
+		add_dir(catstyle(trans(33006)), u_tube, 4, world_icon, world_fanart)
 	if len(local_xml) > 0:	
-		add_dir('[COLOR lime][B]>> Internacional 2 <<[/B][/COLOR]', u_tube, 5, icon, fanart)		
+		add_dir(catstyle(trans(33007)), u_tube, 5, world_icon, world_fanart)		
 	if len(algas_m3u) > 0:	
-		add_dir('[COLOR blue][B]>> TV Algas <<[/B][/COLOR]', u_tube, 6, icon, fanart)	
+		add_dir(catstyle(trans(33008)), u_tube, 6, portugal_icon, portugal_fanart)	
 	if len(brasil_m3u) > 0:	
-		add_dir('[COLOR green][B]>> Lista Brasil <<[/B][/COLOR]', u_tube, 7, icon, fanart)	
+		add_dir(catstyle(trans(33009)), u_tube, 7, brasil_icon, brasil_fanart)	
+	if len(brasil1_m3u) > 0:	
+		add_dir(catstyle(trans(33010)), u_tube, 10, brasil_icon, brasil_fanart)	
+	if len(brasil2_m3u) > 0:	
+		add_dir(catstyle(trans(33011)), u_tube, 11, brasil_icon, brasil_fanart)	
 	if len(mega_xml) > 0:	
-		add_dir('[COLOR red][B]>> TV Mega <<[/B][/COLOR]', u_tube, 8, icon, fanart)	
-	if (len(online_m3u) < 1 and len(local_m3u) < 1 and len(online_xml) < 1 and len(local_xml) < 1 and len(algas_m3u) < 1 and len(brasil_m3u) < 1 and len(mega_xml) < 1 and len(pt_m3u) < 1 ):		
+		add_dir(catstyle(trans(33012)), u_tube, 8, portugal_icon, portugal_fanart)	
+	if len(desporto) > 0:	
+		add_dir(catstyle(trans(33013)), u_tube, 12, desporto_icon, desporto_fanart)	
+	"""if (len(online_m3u) < 1 and len(local_m3u) < 1 and len(online_xml) < 1 and len(local_xml) < 1 and len(algas_m3u) < 1 and len(brasil_m3u) < 1 and len(mega_xml) < 1 and len(pt_m3u) < 1 ):		
 		mysettings.openSettings()
 		xbmc.executebuiltin("Container.Refresh")		
-
+"""
 def search(): 	
 	try:
 		keyb = xbmc.Keyboard('', 'Enter search text')
@@ -227,7 +259,19 @@ def search():
 			match = re.compile(m3u_regex).findall(content)
 			for thumb, name, url in match:
 				if re.search(searchText, removeAccents(name.replace('Đ', 'D')), re.IGNORECASE):
-					m3u_playlist(name, url, thumb)		
+					m3u_playlist(name, url, thumb)	
+		if len(brasil1_m3u) > 0:		
+			content = make_request(brasil1_m3u)
+			match = re.compile(m3u_regex).findall(content)
+			for thumb, name, url in match:
+				if re.search(searchText, removeAccents(name.replace('Đ', 'D')), re.IGNORECASE):
+					m3u_playlist(name, url, thumb)			
+		if len(brasil2_m3u) > 0:		
+			content = make_request(brasil2_m3u)
+			match = re.compile(m3u_regex).findall(content)
+			for thumb, name, url in match:
+				if re.search(searchText, removeAccents(name.replace('Đ', 'D')), re.IGNORECASE):
+					m3u_playlist(name, url, thumb)					
 		if len(mega_xml) > 0:					
 			content = make_request(mega_xml)
 			match = re.compile(xml_regex).findall(content)	
@@ -239,12 +283,18 @@ def search():
 			match = re.compile(m3u_regex).findall(content)
 			for thumb, name, url in match:
 				if re.search(searchText, removeAccents(name.replace('Đ', 'D')), re.IGNORECASE):
+					m3u_playlist(name, url, thumb)		
+		if len(desporto) > 0:		
+			content = make_request(desporto)
+			match = re.compile(m3u_regex).findall(content)
+			for thumb, name, url in match:
+				if re.search(searchText, removeAccents(name.replace('Đ', 'D')), re.IGNORECASE):
 					m3u_playlist(name, url, thumb)						
 	except:
 		pass
 		
-def m3u_online():		
-	content = make_request(online_m3u)
+def m3u_online(m3u_url):
+	content = make_request(m3u_url)
 	match = re.compile(m3u_regex).findall(content)
 	for thumb, name, url in match:
 		try:
@@ -252,64 +302,7 @@ def m3u_online():
 		except:
 			pass
 			
-def xml_online():			
-	content = make_request(online_xml)
-	match = re.compile(m3u_regex).findall(content)
-	for thumb, name, url in match:	
-		try:
-			m3u_playlist(name, url, thumb)
-		except:
-			pass
-			
-def m3u_local():
-	content = make_request(local_m3u)
-	match = re.compile(m3u_regex).findall(content)
-	for thumb, name, url in match:	
-		try:
-			m3u_playlist(name, url, thumb)
-		except:
-			pass
-
-def xml_local():		
-	content = make_request(local_xml)
-	match = re.compile(m3u_regex).findall(content)
-	for thumb, name, url in match:	
-		try:
-			m3u_playlist(name, url, thumb)
-		except:
-			pass
-def m3u_algas():		
-	content = make_request(algas_m3u)
-	match = re.compile(m3u_regex).findall(content)
-	for thumb, name, url in match:	
-		try:
-			m3u_playlist(name, url, thumb)
-		except:
-			pass
-def m3u_brasil():		
-	content = make_request(brasil_m3u)
-	match = re.compile(m3u_regex).findall(content)
-	for thumb, name, url in match:	
-		try:
-			m3u_playlist(name, url, thumb)
-		except:
-			pass		
-def xml_mega():			
-	content = make_request(mega_xml)
-	match = re.compile(m3u_regex).findall(content)
-	for thumb, name, url in match:
-		try:
-			m3u_playlist(name, url, thumb)
-		except:
-			pass	
-def m3u_pt():		
-	content = make_request(pt_m3u)
-	match = re.compile(m3u_regex).findall(content)
-	for thumb, name, url in match:	
-		try:
-			m3u_playlist(name, url, thumb)
-		except:
-			pass			
+		
 def m3u_playlist(name, url, thumb):	
 	name = re.sub('\s+', ' ', name).strip()			
 	url = url.replace('"', ' ').replace('&amp;', '&').strip()
@@ -436,28 +429,37 @@ elif mode == 1:
 
 
 elif mode == 2:
-	m3u_online()
+	m3u_online(online_m3u)
 	
 elif mode == 3:
-	m3u_local()
+	m3u_online(local_m3u)
 	
 elif mode == 4:
-	xml_online()
+	m3u_online(online_xml)
 	
 elif mode == 5:
-	xml_local()	
+	m3u_online(local_xml)	
 	
 elif mode == 6:
-	m3u_algas()	
+	m3u_online(algas_m3u)	
 	
 elif mode == 7:
-	m3u_brasil()
+	m3u_online(brasil_m3u)
 	
 elif mode == 8:
-	xml_mega()
+	m3u_online(mega_xml)
 	
 elif mode == 9:
-	m3u_pt()
+	m3u_online(pt_m3u)
+	
+elif mode == 10:
+	m3u_online(brasil1_m3u)
+
+elif mode == 11:
+	m3u_online(brasil2_m3u)
+	
+elif mode == 12:
+	m3u_online(desporto)
 	
 elif mode == 99:
 	search()
