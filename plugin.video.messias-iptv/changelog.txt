@@ -4,3 +4,15 @@ Version 0.0.2
 update
 Version 0.0.3
 Sempre a subir
+Version 0.0.4
+melhorias
+Version 0.0.5
+update
+Version 0.0.6
+update
+Version 0.0.7
+Big update
+Version 0.0.8
+update
+Version 0.0.9
+update
